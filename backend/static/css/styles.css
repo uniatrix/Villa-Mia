@@ -1,0 +1,70 @@
+.hr-text {
+  font-size: 4rem;
+}
+
+/* HERO IMAGES */
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-row-gap: 5px;
+    grid-column-gap: 125px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .image-item {
+    width: 200%;
+    height: 100%;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 4);
+    overflow: hidden;
+    padding: 2px;
+    position: relative;
+    border-radius: 0;
+  }
+  
+  .image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.8s ease;
+    border-radius: 0;
+  }
+  
+  .image-item img.hover-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    padding: 2px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+  }
+/* END OF HERO IMAGES */
+
+.hp-room-section .container-fluid {
+    max-width: 100%;
+  }
+
+  .hp-room-item .hr-text h3,
+  .hp-room-item .hr-text h2,
+  .hp-room-item .hr-text table,
+  .hp-room-item .hr-text a {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 2);
+    text-shadow: 
+    -1px -1px 1 #000,  
+     1px -1px 1 #000,
+    -1px  1px 1 #000,
+     1px  1px 1 #000; /* Creates the stroke effect */
+  }
+
+  .about-text {
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    line-height: 1.4;
+    color: #333;
+    max-width: 1200px;
+}

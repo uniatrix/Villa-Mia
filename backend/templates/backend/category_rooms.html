@@ -1,0 +1,99 @@
+{% extends "backend/layout.html" %}
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    .room-title {
+        display: flex;
+        justify-content: center;
+        font-size: 50px;
+        color: #000000;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .card-title {
+        color: #000000;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .list-group-item {
+        background-color: transparent;
+        border: none;
+        padding: .5rem 1rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .list-group-item:nth-child(odd) {
+        background-color: #f8f9fa;
+    }
+
+    .list-group-item i {
+        margin-right: 10px;
+        color: #17a2b8;
+    }
+</style>
+{% endblock %}
+{% block body %}
+<div class="container mt-5">
+    {% if request.user.is_staff %}
+    <div class="d-flex justify-content-center mb-4">
+        <a href="{% url 'add_room_view' %}" class="btn btn-success">Nova Acomodação</a>
+    </div>
+    {% endif %}
+    <h1 class="text-center mb-4 room-title">{{ category.name }}</h1>
+    <div class="row">
+        {% if rooms %}
+            {% for room in rooms %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{{ room.image.url }}" class="card-img-top" alt="{{ room.title }}">
+                        <div class="card-body d-flex flex-column">
+                                <h5 class="card-title card-title">{{ room.title }}</h5>
+                                <p class="card-text">{{ room.description }}</p>
+                            <div class="d-flex justify-content-right">
+                                <ul class="list-group list-group-flush mb-3">
+                                    <li class="list-group-item"><i class="fas fa-users"></i>Capacidade: {{ room.capacity }}</li>
+                                    <li class="list-group-item"><i class="fas fa-tv"></i>TV: {{ room.tv|yesno:"Sim,Não" }}</li>
+                                    <li class="list-group-item"><i class="fas fa-wifi"></i>Wi-Fi: {{ room.wifi|yesno:"Sim,Não" }}</li>
+                                    <li class="list-group-item"><i class="fas fa-snowflake"></i>AC: {{ room.ac|yesno:"Sim,Não" }}</li>
+                                    <li class="list-group-item"><i class="fas fa-bath"></i>Banheira: {{ room.bathtub|yesno:"Sim,Não" }}</li>
+                                    <li class="list-group-item"><i class="fas fa-dollar-sign"></i>Diária: R$ {{ room.price }}</li>
+                                </ul>
+                            </div>
+                            <div class="d-flex justify-content-right">
+                                <a href="{% url 'check_availability' room.id %}" class="btn btn-info mt-auto">Verificar Disponibilidade</a>
+                            </div>
+                            {% if request.user.is_staff %}
+                                <form method="post" action="{% url 'category_rooms' category.id %}" class="mt-3">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="room_id" value="{{ room.id }}">
+                                    <div class="form-group">
+                                        <label for="category">Mudar Categoria:</label>
+                                        <br/>
+                                        <select name="category" class="form-control">
+                                            {% for category in form.fields.category.queryset %}
+                                                <option value="{{ category.id }}" {% if room.category == category %}selected{% endif %}>
+                                                    {{ category.name }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <button type="submit" class="btn btn-success mt-2">Atualizar</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">No rooms available in this category.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,211 @@
+{% extends "backend/layout.html" %}
+{% block body %}
+<style>
+  .btn-sm {
+    margin-left: 5px;
+    margin-top: -4px;
+  }
+
+  /* Mobile styling for accordion */
+  @media (max-width: 767px) {
+    .desktop-columns {
+      display: none; /* Hide table columns on small devices */
+    }
+
+    .accordion-button {
+      cursor: pointer;
+      padding: 10px;
+      width: 100%;
+      text-align: left;
+      border: none;
+      outline: none;
+      background-color: #f8f9fa;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .accordion-content {
+      padding: 0 18px;
+      display: none;
+      overflow: hidden;
+      background-color: #f9f9f9;
+      transition: max-height 0.2s ease-out;
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .accordion-content.show {
+      display: block;
+    }
+  }
+
+  /* Desktop styling */
+  @media (min-width: 768px) {
+    .mobile-columns {
+      display: none; /* Hide accordion on large devices */
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .table {
+      width: 100%;
+      margin-bottom: 1rem;
+      background-color: transparent;
+    }
+
+    th,
+    td {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .table th,
+    .table td {
+      padding: 0.75rem;
+      border-top: 1px solid #dee2e6;
+    }
+  }
+
+  .btn-group .btn {
+    flex: 1;
+  }
+</style>
+
+<div class="container mt-5">
+  <span class="d-flex justify-content-center"><h1>Reservas Realizadas</h1></span>
+  <br />
+
+  <!-- Mobile Accordion -->
+  <div class="mobile-columns">
+    {% for booking in bookings %}
+    <div class="accordion-item">
+      <button class="accordion-button">
+        {{ booking.guest_name }} - {{ booking.room.title }}
+      </button>
+      <div class="accordion-content">
+        <p><strong>Telefone:</strong> {{ booking.phone_number }}</p>
+        <p><strong>Check-in:</strong> {{ booking.check_in }}</p>
+        <p><strong>Check-out:</strong> {{ booking.check_out }}</p>
+        <p><strong>Adultos:</strong> {{ booking.adults }}</p>
+        <p><strong>Crianças:</strong> {{ booking.children }}</p>
+        <p><strong>Pago?:</strong> {{ booking.is_paid|yesno:"Sim,Não" }}</p>
+        <p><strong>Confirmado?:</strong> {{ booking.confirmed|yesno:"Sim,Não" }}</p>
+        <div class="btn-group mt-2" role="group" aria-label="Action buttons">
+          <!-- Confirm Status Toggle Button -->
+          <form method="post" action="{% url 'toggle_confirm_status' booking.id %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn {% if booking.confirmed %}btn-success{% else %}btn-dark{% endif %} btn-sm">
+              {% if booking.confirmed %} Não Confirmado {% else %} Confirmado {% endif %}
+            </button>
+          </form>
+          <!-- Toggle Paid Status Button -->
+          <form method="post" action="{% url 'toggle_paid_status' booking.id %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn {% if booking.is_paid %}btn-info{% else %}btn-dark{% endif %} btn-sm">
+              {% if booking.is_paid %} Não Pago {% else %} Pago {% endif %}
+            </button>
+          </form>
+          <!-- Delete Button -->
+          <form method="post" action="{% url 'delete_booking' booking.id %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Desktop Table -->
+  <div class="table-responsive desktop-columns">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Telefone</th>
+          <th>Acomodação</th>
+          <th>Check-in</th>
+          <th>Check-out</th>
+          <th>Adultos</th>
+          <th>Crianças</th>
+          <th>Confirmado?</th>
+          <th>Pago?</th>
+          <th>Ações</th> <!-- Added Actions column for better alignment -->
+        </tr>
+      </thead>
+      <tbody>
+        {% for booking in bookings %}
+        <tr>
+          <td>
+            {% if booking.guest_name %}
+            {{ booking.guest_name }}
+            {% elif booking.user %}
+            {{ booking.user.username }}
+            {% else %}
+            Unknown
+            {% endif %}
+          </td>
+          <td>{{ booking.phone_number }}</td>
+          <td>{{ booking.room.title }}</td>
+          <td>{{ booking.check_in }}</td>
+          <td>{{ booking.check_out }}</td>
+          <td>{{ booking.adults }}</td>
+          <td>{{ booking.children }}</td>
+          <!-- Confirmed Status -->
+          <td>
+            <form method="post" action="{% url 'toggle_confirm_status' booking.id %}" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn {% if booking.confirmed %}btn-success{% else %}btn-dark{% endif %} btn-sm">
+                {% if booking.confirmed %} Confirmado {% else %} Não Confirmado {% endif %}
+              </button>
+            </form>
+          </td>
+          <!-- Paid Status Toggle -->
+          <td>
+            <form method="post" action="{% url 'toggle_paid_status' booking.id %}" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn {% if booking.is_paid %}btn-info{% else %}btn-dark{% endif %} btn-sm">
+                {% if booking.is_paid %} Pago {% else %} Não Pago {% endif %}
+              </button>
+            </form>
+          </td>
+          <!-- Delete Button -->
+          <td>
+            <form method="post" action="{% url 'delete_booking' booking.id %}" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- JavaScript for Mobile Accordion -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var accordions = document.getElementsByClassName("accordion-button");
+    for (var i = 0; i < accordions.length; i++) {
+      accordions[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  });
+</script>
+
+{% endblock %}

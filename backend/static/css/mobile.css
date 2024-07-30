@@ -1,0 +1,129 @@
+/* mobile.css */
+
+/* Remove body margins and padding to prevent overflow */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+  /* Ensure container elements have proper padding */
+  .container,
+  .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  /* Ensure row elements have no margin */
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  /* Apply mobile-specific styles */
+  @media (max-width: 768px) {
+    /* Center hero section text and button */
+    .hero-section .hero-text {
+      text-align: center;
+    }
+  
+    .hero-section .primary-btn {
+      margin: 0 auto;
+    }
+  
+    /* Hide image grid in hero section */
+    .hero-section .image-grid {
+      display: none;
+    }
+  
+    /* Center about us section text and button */
+    .aboutus-section .about-text {
+      text-align: center;
+    }
+  
+    .aboutus-section .about-btn {
+      margin: 0 auto;
+    }
+  
+    /* Center service items */
+    .services-section .service-item {
+      text-align: center;
+    }
+  
+    /* Center testimonial section title and items */
+    .testimonial-section .section-title,
+    .testimonial-section .ts-item {
+      text-align: center;
+    }
+  
+    /* Center footer sections and adjust margins */
+    .footer-section .ft-newslatter,
+    .footer-section .ft-contact,
+    .footer-section .ft-about {
+      text-align: center;
+      margin: 20px 0;
+    }
+  
+    /* Ensure footer contact list has no padding and proper spacing */
+    .footer-section .ft-contact ul {
+      list-style: none;
+      padding: 0;
+    }
+  
+    .footer-section .ft-contact ul li {
+      margin-bottom: 10px;
+    }
+  
+    /* Center footer newsletter form elements */
+    .footer-section .fn-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .footer-section .fn-form input {
+      margin-bottom: 10px;
+    }
+  
+    .footer-section .fn-form button {
+      align-self: center;
+    }
+  
+    /* Center home room item text and button */
+    .hp-room-item .hr-text {
+      text-align: center;
+    }
+  
+    .hp-room-item .primary-btn {
+      margin: 0 auto;
+    }
+  
+    /* Adjust about-pic section to display images side by side */
+    .about-pic .row {
+      display: flex;
+      justify-content: center;
+    }
+  
+    .about-pic .col-sm-6 {
+      max-width: 50%;
+      flex: 0 0 50%;
+    }
+  
+    .about-pic .col-sm-6 img {
+      width: 100%;
+      height: auto;
+    }
+
+    .hp-room-item .hr-text {
+      text-align: center;
+    }
+    .flogo {
+        padding-right: 80px;
+      }
+      .ftext {
+        padding-right: 60px;
+      }
+      .hr-text {
+        padding-right: 25px;
+      }
+}

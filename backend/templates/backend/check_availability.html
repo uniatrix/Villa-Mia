@@ -1,0 +1,210 @@
+{% extends "backend/layout.html" %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    .room-title {
+        display: flex;
+        justify-content: center;
+        font-size: 36px;
+        color: #000000;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .res-form {
+        display: flex;
+        justify-content: start;
+        font-size: 20px;
+        color: #000000;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .flatpickr-day.booked {
+        text-decoration: line-through;
+        color: red !important;
+        opacity: 0.5;
+    }
+
+    .flatpickr-day.booked:hover {
+        cursor: not-allowed;
+    }
+
+    .flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay {
+        opacity: 1;
+        color: inherit;
+    }
+
+    .card-custom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+        border: 1px solid #e3e6f0;
+        border-radius: 10px;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58,59,69,0.15);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .card-custom img {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        width: 100%;
+        height: auto;
+    }
+
+    .card-custom .card-body {
+        padding: 20px;
+        width: 100%;
+    }
+
+    .card-custom .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .card-custom .form-control {
+        height: calc(1.5em + .75rem + 2px);
+        padding: .375rem .75rem;
+        font-size: .875rem;
+        line-height: 1.5;
+        border-radius: .2rem;
+    }
+
+    .card-custom .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        width: 100%;
+    }
+
+    .card-custom .btn-info:hover {
+        background-color: #138496;
+        border-color: #117a8b;
+    }
+
+    .list-group-item {
+        background-color: transparent;
+        border: none;
+        padding: .5rem 1rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .list-group-item:nth-child(odd) {
+        background-color: #f8f9fa;
+    }
+
+    .list-group-item i {
+        margin-right: 10px;
+        color: #17a2b8;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="my-4 room-title">{{ room.title }}</h1>
+    {% if form.errors %}
+        {% for field, errors in form.errors.items %}
+            {% if field == '__all__' %}
+                {% for error in errors %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% for error in errors %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        {% if field == 'phone_number' %}
+                            Por favor certifique-se de que o telefone está correto.
+                        {% elif field == 'guest_name' %}
+                            O nome deve ter mais de 4 caracteres.
+                        {% elif field == 'check_in' %}
+                            Por favor, escolha a data de check-in.
+                        {% elif field == 'check_out' %}
+                            Por favor, escolha a data de check-out.
+                        {% else %}
+                            {{ error }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <div class="card card-custom">
+        <img src="{{ room.image.url }}" class="card-img-top" alt="{{ room.title }}">
+        <div class="card-body">
+            <p class="card-text">{{ room.description }}</p>
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item"><i class="fas fa-users"></i>Capacidade: {{ room.capacity }}</li>
+                <li class="list-group-item"><i class="fas fa-tv"></i>TV: {{ room.tv|yesno:"Sim,Não" }}</li>
+                <li class="list-group-item"><i class="fas fa-wifi"></i>Wi-Fi: {{ room.wifi|yesno:"Sim,Não" }}</li>
+                <li class="list-group-item"><i class="fas fa-snowflake"></i>AC: {{ room.ac|yesno:"Sim,Não" }}</li>
+                <li class="list-group-item"><i class="fas fa-bath"></i>Banheira: {{ room.bathtub|yesno:"Sim,Não" }}</li>
+                <li class="list-group-item"><i class="fas fa-dollar-sign"></i>Diária: R$ {{ room.price }}</li>
+            </ul>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <h3 class="res-form">Formulário de Reserva</h3><br/>
+                    <label for="guest_name">Nome Completo</label><br/>
+                    {{ form.guest_name }}
+                </div>
+                <div class="form-group">
+                    <label for="phone_number">Telefone</label><br/>
+                    {{ form.phone_number }}
+                </div>
+                <div class="form-group">
+                    <label for="dates">Selecionar Datas</label>
+                    <input type="text" id="date_range" class="form-control flatpickr-input" name="date_range">
+                    <input type="hidden" id="id_check_in" name="check_in">
+                    <input type="hidden" id="id_check_out" name="check_out">
+                </div>
+                <div class="form-group">
+                    <label for="adults">Adultos</label><br/>
+                    {{ form.adults }}
+                </div>
+                <div class="form-group">
+                    <label for="children">Crianças</label><br/>
+                    {{ form.children }}
+                </div>
+                <button type="submit" class="btn btn-info">Reservar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    $(document).ready(function() {
+        var bookedDates = {{ booked_dates|safe }};
+        
+        flatpickr("#date_range", {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            disable: bookedDates,
+            onDayCreate: function(dObj, dStr, fp, dayElem) {
+                if (bookedDates.includes(dayElem.dateObj.toISOString().split('T')[0])) {
+                    dayElem.classList.add('booked');
+                }
+            },
+            onChange: function(selectedDates, dateStr, instance) {
+                if (selectedDates.length == 2) {
+                    var checkInDate = selectedDates[0];
+                    var checkOutDate = selectedDates[1];
+                    document.getElementById("id_check_in").value = checkInDate.toISOString().split('T')[0];
+                    document.getElementById("id_check_out").value = checkOutDate.toISOString().split('T')[0];
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

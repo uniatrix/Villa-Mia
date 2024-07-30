@@ -1,0 +1,54 @@
+{% extends "backend/layout.html" %}
+{% block body %}
+<style>
+    .add-room {
+        display: flex;
+        justify-content: center;
+        font-size: 50px;
+        color: #000000;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 
+        -1px -1px 1 #000,  
+         1px -1px 1 #000,
+        -1px  1px 1 #000,
+         1px  1px 1 #000; /* Creates the stroke effect */
+    }
+    .card-container {
+        width: 75%; /* Reducing the width by 25% */
+        margin: auto; /* Center the card */
+    }
+</style>
+<div class="container d-flex justify-content-center mt-5">
+    <div class="col-md-8">
+        <h1 class="card-title text-center add-room">Adicionar Nova Acomodação</h1><br/>
+        <div class="card shadow-lg card-container">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <ul class="list-group list-group-flush">
+                        {% for field in form %}
+                            <li class="list-group-item">
+                                <div class="mb-3">
+                                    {{ field.label_tag }}<br>
+                                    {{ field }}<br>
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% for error in field.errors %}
+                                        <div class="text-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-dark">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

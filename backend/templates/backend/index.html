@@ -1,0 +1,574 @@
+{% extends "backend/layout.html" %} {% load static %} {% block body %}
+<!-- Hero Section Begin -->
+<section class="hero-section" id="hero">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="hero-text">
+          <h1>Villa Mia</h1>
+          <p>
+            Conecte-se com a natureza em um ambiente aconchegante e desfrute da
+            tranquilidade que apenas Itaipava pode te proporcionar.
+          </p>
+          <a href="#rooms" class="primary-btn">Faça sua reserva</a>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
+        <div class="image-grid">
+          <div class="image-item card">
+            <img
+              src="{% static 'backend/image/interior/breakfast.jpg' %}"
+              class="card-img-top"
+              alt="Breakfast"
+            />
+            <img
+              src="{% static 'backend/image/interior/rotate1.jpeg' %}"
+              class="card-img-top hover-img"
+              alt="Rotate 1"
+            />
+          </div>
+          <div class="image-item card">
+            <img
+              src="{% static 'backend/image/interior/pool1.jpeg' %}"
+              class="card-img-top"
+              alt="Pool 1"
+            />
+            <img
+              src="{% static 'backend/image/interior/rotate2.jpg' %}"
+              class="card-img-top hover-img"
+              alt="Rotate 2"
+            />
+          </div>
+          <div class="image-item card">
+            <img
+              src="{% static 'backend/image/interior/stairs.jpeg' %}"
+              class="card-img-top"
+              alt="Stairs"
+            />
+            <img
+              src="{% static 'backend/image/interior/rotate3.jpeg' %}"
+              class="card-img-top hover-img"
+              alt="Rotate 3"
+            />
+          </div>
+          <div class="image-item card">
+            <img
+              src="{% static 'backend/image/interior/pool2.jpeg' %}"
+              class="card-img-top"
+              alt="Pool 2"
+            />
+            <img
+              src="{% static 'backend/image/interior/rotate4.jpeg' %}"
+              class="card-img-top hover-img"
+              alt="Rotate 4"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-slider owl-carousel">
+    <div
+      class="hs-item set-bg"
+      data-setbg="{% static 'backend/image/outside/pousada-1.jpg' %}"
+    ></div>
+    <div
+      class="hs-item set-bg"
+      data-setbg="{% static 'backend/image/outside/pousada-2.jpg' %}"
+    ></div>
+    <div
+      class="hs-item set-bg"
+      data-setbg="{% static 'backend/image/outside/pousada-3.jpg' %}"
+    ></div>
+  </div>
+</section>
+<!-- Hero Section End -->
+
+<script>
+  document.querySelectorAll(".image-item").forEach((item) => {
+    item.addEventListener("mouseover", () => {
+      const hoverImg = item.querySelector(".hover-img");
+      hoverImg.style.opacity = 1;
+    });
+
+    item.addEventListener("mouseout", () => {
+      const hoverImg = item.querySelector(".hover-img");
+      setTimeout(() => {
+        hoverImg.style.opacity = 0;
+      }, 3000);
+    });
+  });
+</script>
+
+<!-- About Us Section Begin -->
+<section class="aboutus-section spad" id="about">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="about-text">
+          <div class="section-title">
+            <span>Sobre nós</span>
+            <h2>Pousada<br /></h2>
+            <h1>Villa Mia</h1>
+          </div>
+          <p class="about-text">
+            A Pousada Villa Mia está localizada no coração de Itaipava, cercada
+            pela exuberante natureza da região serrana. Fundada por Iruscha há
+            mais de 35 anos, a pousada se destaca pelo seu charme e
+            hospitalidade, sendo considerada por nossos clientes como um refúgio
+            acolhedor para aqueles que buscam tranquilidade e contato com a
+            natureza, aonde cada detalhe é pensado para proporcionar momentos
+            inesquecíveis em um ambiente familiar e aconchegante.
+          </p>
+          <a href="#" class="primary-btn about-btn"></a>
+        </div>
+      </div>
+      <div class="col-lg-6 mt-5">
+        <div class="about-pic">
+          <div class="row">
+            <div class="col-sm-6">
+              <img src="{% static 'img/about/about-1.jpg' %}" alt="" />
+            </div>
+            <div class="col-sm-6">
+              <img src="{% static 'img/about/about-2.jpg' %}" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- About Us Section End -->
+
+<!-- Services Section End -->
+<section class="services-section spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title">
+          <span>O Melhor da Serra</span>
+          <h2>Ao Seu Dispor</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-sm-6">
+        <div class="service-item">
+          <i class="flaticon-036-parking"></i>
+          <h4>Cercada pela Natureza</h4>
+          <p>
+            Nossa pousada possui uma localização privilegiada, aninhada entre
+            vales e montanhas, rodeada pela exuberante natureza.
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-6">
+        <div class="service-item">
+          <i class="flaticon-026-bed"></i>
+          <h4>Sua Noite de Sono</h4>
+          <p>
+            Quartos exuberantes e aconchegantes, camas confortáveis e ambientes
+            rústicos, oferecemos o melhor que a serra tem em acomodações.
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-6">
+        <div class="service-item">
+          <i class="flaticon-012-cocktail"></i>
+          <h4>Bar da Piscina</h4>
+          <p>
+            Relaxe e desfrute de suas bebidas favoritas em nosso barzinho,
+            localizado em frente a nossa piscina fria.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Services Section End -->
+
+<!-- Home Room Section Begin -->
+<div class="section-title">
+  <span>Aconchegue-se</span>
+  <h2>Acomodações</h2>
+</div>
+<section class="hp-room-section" id="rooms">
+  <div class="container-fluid">
+    <div class="hp-room-items">
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <div
+            class="hp-room-item set-bg"
+            data-setbg="/media/room_images/Apt9.jpeg"
+            id="standard"
+          >
+            <div class="hr-text">
+              <h3>Standard</h3>
+              <h2>R$350<span>/Diária</span></h2>
+              <table>
+                <tbody>
+                  <tr>
+                    <td class="r-o">Capacidade:</td>
+                    <td>2-4</td>
+                  </tr>
+                  <tr>
+                    <td class="r-o">Utilidades:</td>
+                    <td>Wifi, Televisão, Banheiro, Frigobar, Vista Interna</td>
+                  </tr>
+                </tbody>
+              </table>
+              <a
+                href="{% url 'category_rooms' category_id=1 %}"
+                class="primary-btn"
+                >Checar Disponibilidade</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div
+            class="hp-room-item set-bg"
+            data-setbg="/media/room_images/Apt5.jpg"
+            id="deluxe"
+          >
+            <div class="hr-text">
+              <h3>Deluxe</h3>
+              <h2>R$420<span>/Diária</span></h2>
+              <table>
+                <tbody>
+                  <tr>
+                    <td class="r-o">Capacidade:</td>
+                    <td>2-4</td>
+                  </tr>
+                  <tr>
+                    <td class="r-o">Utilidades:</td>
+                    <td>Wifi, Televisão, Banheiro, Frigobar, Vista Externa</td>
+                  </tr>
+                </tbody>
+              </table>
+              <a
+                href="{% url 'category_rooms' category_id=2 %}"
+                class="primary-btn"
+                >Checar Disponibilidade</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div
+            class="hp-room-item set-bg"
+            data-setbg="/media/room_images/VillaMia.png"
+            id="chalet"
+          >
+            <div class="hr-text">
+              <h3>Chalet</h3>
+              <h2>R$530<span>/Diária</span></h2>
+              <table>
+                <tbody>
+                  <tr>
+                    <td class="r-o">Capacidade:</td>
+                    <td>4-6</td>
+                  </tr>
+                  <tr>
+                    <td class="r-o">Utilidades:</td>
+                    <td>
+                      Wifi, Televisão, Banheiro, Frigobar, Banheira*, Cozinha*
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <a
+                href="{% url 'category_rooms' category_id=3 %}"
+                class="primary-btn"
+                >Checar Disponibilidade</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Home Room Section End -->
+
+<!-- Testimonial Section Begin -->
+<section class="testimonial-section spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title">
+          <span>Nossas Avaliações</span>
+          <h2>O Que Nossos Hospedes Dizem?</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2">
+        <div class="testimonial-slider owl-carousel">
+          <div class="ts-item">
+            <div class="ts-content">
+              <p>
+                Desde a chegada até o momento da saída foi tudo extremamente
+                agradável. Excelente espaço, café da manhã delicioso e farto.
+                Espaço lindo, limpo e super tranquilo. Fui com meu marido e
+                filho e aproveitamos muito. Voltarei com certeza.
+              </p>
+              <div class="ti-author">
+                <h5>- Priscila</h5>
+                <br/>
+                <div class="rating">
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                </div>
+                <img src="static/img/airbnb.png" alt="" />
+              </div>
+            </div>
+          </div>
+          <div class="ts-item">
+            <div class="ts-content">
+              <p>
+                O hotel é super bem cuidado, tudo limpinho. O café da manhã vai
+                até meio dia e é muito farto. O quarto é muito confortável com
+                um colchão excelente. A equipe é super simpática e prestativa,
+                destaque para a Vanderléa!! O hotel fica localizado num lugar
+                alto, com uma vista bonita do vale e cercado de natureza. A
+                piscina é muito boa tb.
+              </p>
+              <div class="ti-author">
+                <h5>- Liliana</h5>
+                <br/>
+                <div class="rating">
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                </div>
+                <img src="static/img/testimonial-logo.png" alt="" />
+              </div>
+            </div>
+          </div>
+          <div class="ts-item">
+            <div class="ts-content">
+              <p>
+                Gostaria de agradecer pela maravilhosa recepção feita a mim e
+                aos meus amigos. Todos nós saímos super satisfeitos com nossa
+                estadia e com toda a funcionalidade do local. Ambiente super
+                limpo e agradável, funcionários super atenciosos e um
+                maravilhoso café da manhã. Em uma próxima oportunidade, irei com
+                toda certeza.
+              </p>
+              <div class="ti-author">
+                <h5>- Rafael Cardoso</h5>
+                <br/>
+                <div class="rating">
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                </div>
+                <img src="static/img/airbnb.png" alt="" />
+              </div>
+            </div>
+          </div>
+          <div class="ts-item">
+            <div class="ts-content">
+              <p>
+                O atendimento foi excelente, com a Vanderleia sempre disponível!
+                O café da manhã com horário diferenciado (estendido), sendo um
+                excelente custo benefício (pães, bolos delicioso, frios...).
+                Flexibilidade bo check-out!!! Foi tudo perfeito e com gostinho
+                de voltar com as filhas! Consegui chegar no utilizando
+                perfeitamente o Waze.
+              </p>
+              <div class="ti-author">
+                <h5>- Liliane</h5>
+                <br/>
+                <div class="rating">
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                </div>
+                <img src="static/img/testimonial-logo.png" alt="" />
+              </div>
+            </div>
+          </div>
+          <div class="ts-item">
+            <div class="ts-content">
+              <p>
+                O lugar é perfeito para descansar e curtir com a família, Dona
+                Iruscha uma anfitriã incrível, eu e minha família adoramos o
+                lugar e com certeza voltaremos em breve!
+              </p>
+              <div class="ti-author">
+                <h5>- Davi</h5>
+                <br/>
+                <div class="rating">
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                </div>
+                <img src="static/img/airbnb.png" alt="" />
+              </div>
+            </div>
+          </div>
+          <div class="ts-item">
+            <div class="ts-content">
+              <p>
+                O lugar é lindo e muito bem cuidado. Anfitriã maravilhosa e
+                super atenciosa.🥰
+              </p>
+              <div class="ti-author">
+                <h5>- Borges</h5>
+                <br/>
+                <div class="rating">
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                </div>
+                <img src="static/img/testimonial-logo.png" alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Testimonial Section End -->
+
+<!-- Footer Section Begin -->
+<footer class="footer-section" id="contact">
+  <div class="container">
+    <div class="footer-text">
+      <div class="row">
+        <div class="col-lg-3 offset-lg-1">
+          <div class="ft-newslatter">
+            <h6>Cadastre seu e-mail</h6>
+            <p>Receba ofertas e descontos exclusivos.</p>
+            <form
+              action="{% url 'subscribe_newsletter' %}"
+              method="post"
+              class="fn-form"
+              id="newsletter-form"
+            >
+              {% csrf_token %}
+              <input type="text" name="email" placeholder="Email" required />
+              <button type="submit"><i class="fa fa-send"></i></button>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-3 offset-lg-1">
+          <div class="ft-contact">
+            <h6>Contate-nos</h6>
+            <ul>
+              <li>
+                <a
+                  href="https://wa.me/5521997896649"
+                  target="_blank"
+                  class="plain-link"
+                  ><i class="fa fa-phone"></i> (21) 99789-6649</a
+                >
+              </li>
+              <li><i class="fa fa-envelope"></i> reservas@villamia.com</li>
+              <li>Rua Paulo Roberto de Oliveira, 891 Itaipava, Petrópolis.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="ft-about">
+            <div class="logo">
+              <a href="#">
+                <img src="static/img/footer-logo.png" alt="" class="flogo" />
+                <p class="footer-new-text ftext">Villa Mia</p>
+              </a>
+            </div>
+            <p>
+              © 2024 Pousada Villa Mia.<br />
+              Todos os direitos reservados.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Footer Section End -->
+
+<style>
+  .plain-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .plain-link:focus,
+  .plain-link:hover,
+  .plain-link:active {
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+  }
+
+  .testimonial-slider .ts-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .testimonial-slider .ts-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .testimonial-slider .ts-content p {
+    min-height: 120px; /* Adjust based on your needs */
+  }
+
+  .ti-author {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ti-author .rating {
+    margin-bottom: 10px;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const navLinks = document.querySelectorAll(
+      ".nav-menu a, .mainmenu.mobile-menu a"
+    );
+    navLinks.forEach((link) => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute("href");
+        if (window.location.pathname === "/") {
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop,
+              behavior: "smooth",
+            });
+          }
+        } else {
+          window.location.href = `/${targetId}`;
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}
