@@ -90,6 +90,15 @@
     .form-inline .form-group label {
         margin-right: 10px;
     }
+
+    @media (max-width: 768px) {
+        .form-group {
+            margin-left: 17px;
+        }
+        .buscar {
+            margin-bottom: 18px;
+        } 
+    }
 </style>
 {% endblock %}
 {% block body %}
@@ -107,7 +116,7 @@
                     <label for="check_out">Check-out</label>
                     <input type="date" id="check_out" name="check_out" class="form-control ml-2" value="{{ request.GET.check_out }}" required>
                 </div>
-                <button type="submit" class="btn btn-info ml-3">Buscar</button>
+                <button type="submit" class="btn btn-info ml-3 buscar">Buscar</button>
             </form>
         </div>
 

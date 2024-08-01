@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.utils import timezone
 from django.views import View
 from .forms import RoomForm, RoomCategoryForm, BookingForm, NewsletterEmailForm
-from .models import Room, Booking, Category, NewsletterEmail
+from .models import Room, Booking, Category, NewsletterEmail, RoomImage
 from datetime import timedelta
 import datetime
 
@@ -82,7 +82,11 @@ def add_room_view(request):
     if request.method == 'POST':
         form = RoomForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            room = form.save()
+            images = [request.FILES.get('image_1'), request.FILES.get('image_2'), request.FILES.get('image_3'), request.FILES.get('image_4')]
+            for image in images:
+                if image:
+                    RoomImage.objects.create(room=room, image=image)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'rooms/add/'))
     else:
         form = RoomForm()
@@ -130,7 +134,8 @@ def admin_bookings(request):
 def check_availability(request, room_id):
     room = get_object_or_404(Room, id=room_id)
     bookings = Booking.objects.filter(room=room).exclude(check_out__lt=datetime.date.today())
-    
+    images = room.images.all()
+
     booked_dates = []
     for booking in bookings:
         current_date = booking.check_in
@@ -151,8 +156,10 @@ def check_availability(request, room_id):
     return render(request, 'backend/check_availability.html', {
         'room': room, 
         'booked_dates': booked_dates, 
-        'form': form
+        'form': form,
+        'images': images
     })
+
 
 @user_passes_test(lambda u: u.is_staff)
 def delete_booking(request, booking_id):

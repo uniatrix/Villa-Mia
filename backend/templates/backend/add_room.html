@@ -4,45 +4,125 @@
     .add-room {
         display: flex;
         justify-content: center;
-        font-size: 50px;
+        font-size: 36px;
         color: #000000;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 2px;
-        text-shadow: 
-        -1px -1px 1 #000,  
-         1px -1px 1 #000,
-        -1px  1px 1 #000,
-         1px  1px 1 #000; /* Creates the stroke effect */
+        letter-spacing: 1px;
+        margin-bottom: 20px;
     }
     .card-container {
-        width: 75%; /* Reducing the width by 25% */
-        margin: auto; /* Center the card */
+        width: 60%; 
+        margin: auto; 
+    }
+    .card {
+        border: 1px solid #e3e6f0;
+        border-radius: 10px;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58,59,69,0.15);
+    }
+    .card-body {
+        padding: 20px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-control, .form-check-input, .btn-dark {
+        border-radius: 5px;
+    }
+    .form-check-label {
+        margin-left: 5px;
+    }
+    .btn-dark {
+        background-color: #343a40;
+        border: none;
+        padding: 10px 20px;
+    }
+    .btn-dark:hover {
+        background-color: #23272b;
+    }
+    .check1 {
+        margin-right: 540px;
+        margin-bottom: 30px;
     }
 </style>
 <div class="container d-flex justify-content-center mt-5">
-    <div class="col-md-8">
-        <h1 class="card-title text-center add-room">Adicionar Nova Acomodação</h1><br/>
-        <div class="card shadow-lg card-container">
+    <div class="card-container">
+        <h1 class="add-room">Adicionar Nova Acomodação</h1>
+        <div class="card shadow-lg">
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <ul class="list-group list-group-flush">
-                        {% for field in form %}
-                            <li class="list-group-item">
-                                <div class="mb-3">
-                                    {{ field.label_tag }}<br>
-                                    {{ field }}<br>
-                                    {% if field.help_text %}
-                                        <small class="form-text text-muted">{{ field.help_text }}</small>
-                                    {% endif %}
-                                    {% for error in field.errors %}
-                                        <div class="text-danger">{{ error }}</div>
-                                    {% endfor %}
-                                </div>
-                            </li>
+                    <div class="form-group">
+                        {{ form.title.label_tag }}<br>
+                        {{ form.title }}
+                        {% for error in form.title.errors %}
+                            <div class="text-danger">{{ error }}</div>
                         {% endfor %}
-                    </ul>
+                    </div>
+                    <div class="form-group">
+                        {{ form.description.label_tag }}<br>
+                        {{ form.description }}
+                        {% for error in form.description.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.image.label_tag }}<br>
+                        {{ form.image }}
+                        {% for error in form.image.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="additional_images">Imagens Adicionais:</label><br>
+                        <input type="file" name="image_1" class="form-control mb-2">
+                        <input type="file" name="image_2" class="form-control mb-2">
+                        <input type="file" name="image_3" class="form-control mb-2">
+                        <input type="file" name="image_4" class="form-control mb-2">
+                        <small class="form-text text-muted">Você pode carregar até 4 imagens adicionais.</small>
+                    </div>
+                    <div class="form-group mr-2">
+                        {{ form.capacity.label_tag }}<br>
+                        {{ form.capacity }}
+                        {% for error in form.capacity.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group d-flex align-items-center">
+                        <i class="fas fa-tv mr-2"></i>
+                        <span class="flex-grow-1">{{ form.tv.label_tag }}</span>
+                        <span class="check1">{{ form.tv }}</span>
+                    </div>
+                    <div class="form-group d-flex align-items-center">
+                        <i class="fas fa-wifi mr-2"></i>
+                        <span class="flex-grow-1">{{ form.wifi.label_tag }}</span>
+                        <span class="check1">{{ form.wifi }}</span>
+                    </div>
+                    <div class="form-group d-flex align-items-center">
+                        <i class="fas fa-snowflake mr-2"></i>
+                        <span class="flex-grow-1">{{ form.ac.label_tag }}</span>
+                        <span class="check1">{{ form.ac }}</span>
+                    </div>
+                    <div class="form-group d-flex align-items-center">
+                        <i class="fas fa-bath mr-2"></i>
+                        <span class="flex-grow-1">{{ form.bathtub.label_tag }}</span>
+                        <span class="check1">{{ form.bathtub }}</span>
+                    </div>
+                    <div class="form-group">
+                        {{ form.price.label_tag }}<br>
+                        {{ form.price }}
+                        {% for error in form.price.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.category.label_tag }}<br>
+                        {{ form.category }}
+                        {% for error in form.category.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <br/>
                     <div class="text-center mt-3">
                         <button type="submit" class="btn btn-dark">Adicionar</button>
                     </div>

@@ -99,21 +99,40 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow wrapping for mobile view */
   }
 
   .form-inline .form-group {
     display: flex;
     align-items: center;
     margin-right: 10px;
+    flex-wrap: wrap; /* Allow wrapping for mobile view */
   }
 
   .form-inline .form-group label {
     margin-right: 10px;
+    white-space: nowrap;
+  }
+
+  .form-inline .form-group input, .form-inline .form-group select, .form-inline button {
+    flex: 1 1 auto; /* Ensure inputs and button take available space */
+    margin-bottom: 10px; /* Space out inputs and button for mobile */
+  }
+
+  .form-inline button {
+    margin-left: 0; /* Reset button margin for mobile */
+  }
+
+  .center-text {
+    text-align: center;
+    width: 100%;
   }
 </style>
 
 <div class="container mt-5 reservas">
-  <span class="d-flex justify-content-center"><h1 style="color: green;">Reservas Ativas</h1></span>
+  <div class="center-text">
+    <h1 style="color: green;">Reservas Ativas</h1>
+  </div>
   <br />
 
   <div class="d-flex justify-content-center mb-3">
@@ -182,7 +201,7 @@
           <form method="post" action="{% url 'archive_booking' booking.id %}" class="d-inline archive-form">
             {% csrf_token %}
             <button type="submit" class="btn btn-warning btn-sm">Arquivar</button>
-        </form>
+          </form>
           <!-- Delete Button -->
           <form method="post" action="{% url 'delete_booking' booking.id %}" class="d-inline">
             {% csrf_token %}

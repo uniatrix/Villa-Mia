@@ -1,7 +1,12 @@
 from django import forms
-from .models import Room, Booking, NewsletterEmail
+from .models import Room, RoomImage, Booking, NewsletterEmail
 
 class RoomForm(forms.ModelForm):
+    image_1 = forms.ImageField(required=False)
+    image_2 = forms.ImageField(required=False)
+    image_3 = forms.ImageField(required=False)
+    image_4 = forms.ImageField(required=False)
+
     class Meta:
         model = Room
         fields = ['title', 'description', 'image', 'capacity', 'tv', 'wifi', 'ac', 'bathtub', 'price', 'category']
@@ -17,6 +22,14 @@ class RoomForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
         }
+
+    def save(self, commit=True):
+        room = super().save(commit=False)
+        if commit:
+            room.save()
+        return room
+
+
 
 class RoomCategoryForm(forms.ModelForm):
     class Meta:

@@ -4,6 +4,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
+    .card-img-top {
+        max-width: auto !important;
+        max-height: 580px !important;
+        width: 100%;
+        border-radius: 10px;
+        transition: opacity 0.5s ease-in-out;
+    }
     .room-title {
         display: flex;
         justify-content: center;
@@ -12,6 +19,7 @@
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 2px;
+        margin-bottom: 20px;
     }
 
     .res-form {
@@ -51,15 +59,8 @@
         margin: 0 auto;
     }
 
-    .card-custom img {
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        width: 100%;
-        height: auto;
-    }
-
     .card-custom .card-body {
-        padding: 20px;
+        padding: 12px;
         width: 100%;
     }
 
@@ -102,6 +103,40 @@
         margin-right: 10px;
         color: #17a2b8;
     }
+
+    .thumbnail {
+        width: 142px;
+        height: 142px;
+        object-fit: cover;
+        margin: 5px;
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+
+    .thumbnail:hover {
+        border-color: #17a2b8;
+    }
+
+    .thumbnail-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+    
+    .thumbnail {
+        border: 2px solid #dfa974;
+        border-radius: 10px;
+    }
+
+    @media (max-width: 768px) {
+    
+    .thumbnail {
+        width: 112px;
+        height: 112px;
+    }
+
+    }
 </style>
 {% endblock %}
 
@@ -136,9 +171,15 @@
         {% endfor %}
     {% endif %}
     <div class="card card-custom">
-        <img src="{{ room.image.url }}" class="card-img-top" alt="{{ room.title }}">
         <div class="card-body">
-            <p class="card-text">{{ room.description }}</p>
+            <img id="main-image" src="{{ room.image.url }}" class="card-img-top" alt="{{ room.title }}">
+            <div class="thumbnail-container">
+                <img src="{{ room.image.url }}" class="thumbnail" onclick="changeMainImage('{{ room.image.url }}')">
+                {% for image in images %}
+                    <img src="{{ image.image.url }}" class="thumbnail" onclick="changeMainImage('{{ image.image.url }}')">
+                {% endfor %}
+            </div>
+            <p class="card-text" style="margin-top: 12px; margin-left: 10px;">{{ room.description }}</p>
             <ul class="list-group list-group-flush mb-4">
                 <li class="list-group-item"><i class="fas fa-users"></i>Capacidade: {{ room.capacity }}</li>
                 <li class="list-group-item"><i class="fas fa-tv"></i>TV: {{ room.tv|yesno:"Sim,Não" }}</li>
@@ -205,6 +246,15 @@
             }
         });
     });
+
+    function changeMainImage(url) {
+        var mainImage = document.getElementById('main-image');
+        mainImage.style.opacity = 0;
+        setTimeout(function() {
+            mainImage.src = url;
+            mainImage.style.opacity = 1;
+        }, 450);
+    }
 </script>
 {% endblock %}
 {% endblock %}
