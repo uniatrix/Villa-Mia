@@ -4,7 +4,7 @@
 
 ## Overview
 
-**Villa Mia** is a Django-based web application designed for managing room reservations at a serene getaway nestled in nature. The application allows guests to explore available accommodations, make reservations, and for admins to manage bookings efficiently.
+**Villa Mia** is a Django-based web application designed for managing room reservations of the Villa Mia Inn located in Itaipava, a district of Petrópolis city in the state of Rio de Janeiro, Brazil. The application allows guests to explore available accommodations, make reservations, and for admins to manage bookings efficiently.
 
 ## Features
 
