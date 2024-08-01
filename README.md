@@ -1,4 +1,4 @@
-# Villa Mia
+# Villa Mia Inn Web Application
 
 ![Villa Mia Logo](backend/static/img/logo.png)
 
