@@ -75,16 +75,15 @@
     />
     <link
       rel="stylesheet"
-      href="{% static 'css/style.css' %}"
+      href="{% static 'css/styles.css' %}"
       type="text/css"
     />
     <link
       rel="stylesheet"
-      href="{% static 'css/styles.css' %}"
+      href="{% static 'css/style.css' %}"
       type="text/css"
     />
     <style>
-      /* Custom styles to remove blue highlight and make links appear as plain text */
       a.plain-link {
         text-decoration: none;
         color: inherit;
@@ -97,6 +96,16 @@
         text-decoration: none;
         color: inherit;
         outline: none;
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        padding: 5px 10px;
+        border-radius: 50%;
+        background-color: red;
+        color: white;
       }
     </style>
     {% block extra_head %}{% endblock %}
@@ -143,7 +152,7 @@
         <a href="https://www.airbnb.com.br/rooms/1129104542810955822?source_impression_id=p3_1722376908_P3mqyyBOas58TPSp"><i class="fab fa-airbnb"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
         {% if request.user.is_staff %}
-        <a href="{% url 'admin_bookings' %}" class="plain-link">
+        <a href="{% url 'admin_bookings' %}" class="plain-link" style="position: relative;">
           <i class="fas fa-key"></i>
         </a>
         {% endif %}
@@ -151,12 +160,7 @@
       <ul class="top-widget">
         <li>
           <i class="fa fa-phone"></i>
-          <a
-            href="https://wa.me/5521997896649"
-            class="plain-link"
-            target="_blank"
-            >(21) 99789-6649</a
-          >
+          <a href="https://wa.me/5521997896649" class="plain-link" target="_blank">(21) 99789-6649</a>
         </li>
         <li><i class="fa fa-envelope"></i> reservas@villamia.com</li>
       </ul>
@@ -185,8 +189,9 @@
                         </div>
                         <a href="#rooms" class="bk-btn">Faça sua Reserva</a>
                         {% if request.user.is_staff %}
-                        <a href="{% url 'admin_bookings' %}" class="plain-link ml-3">
+                        <a href="{% url 'admin_bookings' %}" class="plain-link ml-3 position-relative">
                             <i class="fas fa-key"></i>
+                            <span id="notification-badge" class="badge badge-danger" style="display: none; position: absolute; top: -10px; right: -10px;">0</span>
                         </a>
                         {% endif %}
                     </div>
@@ -241,28 +246,68 @@
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const navLinks = document.querySelectorAll(
-          ".nav-menu a, .mainmenu.mobile-menu a"
-        );
-        navLinks.forEach((link) => {
-          link.addEventListener("click", function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute("href");
-            if (window.location.pathname === "/") {
-              const targetElement = document.querySelector(targetId);
-              if (targetElement) {
-                window.scrollTo({
-                  top: targetElement.offsetTop,
-                  behavior: "smooth",
-                });
-              }
-            } else {
-              window.location.href = `/${targetId}`;
-            }
-          });
+      document.addEventListener("DOMContentLoaded", function() {
+        function fetchNewReservationsCount() {
+            fetch("{% url 'new_reservations_count' %}")
+                .then(response => response.json())
+                .then(data => {
+                    const badge = document.getElementById("notification-badge");
+                    if (data.count > 0) {
+                        badge.style.display = 'inline-block';
+                        badge.textContent = data.count;
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                })
+                .catch(error => console.error('Error fetching new reservations count:', error));
+        }
+    
+        // Fetch count on page load
+        fetchNewReservationsCount();
+    
+        // Fetch count every 60 seconds
+        setInterval(fetchNewReservationsCount, 60000);
+    
+        // Attach event listener to confirmation buttons to update the badge count
+        document.querySelectorAll("form[action*='toggle_confirm_status']").forEach(form => {
+            form.addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                const url = form.action;
+                const csrfToken = form.querySelector("[name='csrfmiddlewaretoken']").value;
+                
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": csrfToken,
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Update the badge count based on the response
+                    const badge = document.getElementById("notification-badge");
+                    if (data.new_reservations_count > 0) {
+                        badge.style.display = 'inline-block';
+                        badge.textContent = data.new_reservations_count;
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                    // Update the button text and class based on the new confirmed status
+                    const button = form.querySelector("button");
+                    if (button.classList.contains("btn-success")) {
+                        button.classList.remove("btn-success");
+                        button.classList.add("btn-dark");
+                        button.textContent = "Não Confirmado";
+                    } else {
+                        button.classList.remove("btn-dark");
+                        button.classList.add("btn-success");
+                        button.textContent = "Confirmado";
+                    }
+                })
+                .catch(error => console.error('Error updating confirmation status:', error));
+            });
         });
-      });
-    </script>
+    });    
+      </script>
   </body>
 </html>

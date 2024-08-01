@@ -11,7 +11,7 @@ class Category(models.Model):
 class Room(models.Model):
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=600)
-    image = models.ImageField(upload_to='room_images/')
+    image = models.ImageField(upload_to='room_images/', blank=True, null=True)  # Main image
     capacity = models.IntegerField()
     ac = models.BooleanField(default=False)
     tv = models.BooleanField(default=True)
@@ -23,6 +23,13 @@ class Room(models.Model):
 
     def __str__(self):
         return self.title
+
+class RoomImage(models.Model):
+    room = models.ForeignKey(Room, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='room_images/')
+
+    def __str__(self):
+        return f"Image for {self.room.title}"
 
 class Booking(models.Model):
     phone_regex = RegexValidator(regex=r'^\d{1,13}$', message="Phone number must be numeric and up to 13 digits")
@@ -36,11 +43,13 @@ class Booking(models.Model):
     children = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     confirmed = models.BooleanField(default=False)
+    new_reservation = models.BooleanField(default=True, help_text="Indicates if the reservation is new")
     is_paid = models.BooleanField(default=False)
+    archived = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.guest_name or (self.user.username if self.user else 'Unknown')} - {self.room.title} from {self.check_in} to {self.check_out}"
-
+    
 class NewsletterEmail(models.Model):
     email = models.EmailField(unique=True)
     date_subscribed = models.DateTimeField(auto_now_add=True)

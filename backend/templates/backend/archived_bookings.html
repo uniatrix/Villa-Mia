@@ -90,11 +90,11 @@
 </style>
 
 <div class="container mt-5">
-  <span class="d-flex justify-content-center"><h1 style="color: green;">Reservas Ativas</h1></span>
+  <span class="d-flex justify-content-center"><h1 style="color: red;">Reservas Arquivadas</h1></span>
   <br />
 
   <div class="d-flex justify-content-center mb-3">
-    <a href="{% url 'archived_bookings' %}" class="btn btn-dark">Reservas Arquivadas</a>
+    <a href="{% url 'admin_bookings' %}" class="btn btn-dark">Reservas Ativas</a>
   </div>
 
   <!-- Mobile Accordion -->
@@ -127,11 +127,11 @@
               {% if booking.is_paid %} Não Pago {% else %} Pago {% endif %}
             </button>
           </form>
-          <!-- Archive Button -->
+          <!-- Unarchive Button -->
           <form method="post" action="{% url 'archive_booking' booking.id %}" class="d-inline archive-form">
             {% csrf_token %}
-            <button type="submit" class="btn btn-warning btn-sm">Arquivar</button>
-        </form>
+            <button type="submit" class="btn btn-warning btn-sm">Desarquivar</button>
+          </form>
           <!-- Delete Button -->
           <form method="post" action="{% url 'delete_booking' booking.id %}" class="d-inline">
             {% csrf_token %}
@@ -200,7 +200,7 @@
           <td class="action-buttons">
             <form method="post" action="{% url 'archive_booking' booking.id %}" class="d-inline archive-form">
               {% csrf_token %}
-              <button type="submit" class="btn btn-warning btn-sm">Arquivar</button>
+              <button type="submit" class="btn btn-warning btn-sm">Desarquivar</button>
             </form>
             <form method="post" action="{% url 'delete_booking' booking.id %}" class="d-inline">
               {% csrf_token %}
