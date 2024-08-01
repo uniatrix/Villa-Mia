@@ -87,14 +87,65 @@
     justify-content: center;
     gap: 10px;
   }
+
+  @media only screen and (min-width: 1200px) {
+    .reservas {
+        max-width: 1300px;
+    }
+  }
+
+  .filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .form-inline .form-group {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+
+  .form-inline .form-group label {
+    margin-right: 10px;
+  }
 </style>
 
-<div class="container mt-5">
+<div class="container mt-5 reservas">
   <span class="d-flex justify-content-center"><h1 style="color: red;">Reservas Arquivadas</h1></span>
   <br />
 
   <div class="d-flex justify-content-center mb-3">
     <a href="{% url 'admin_bookings' %}" class="btn btn-dark">Reservas Ativas</a>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-container">
+    <form method="get" class="form-inline">
+      <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" class="form-control ml-2" value="{{ request.GET.nome }}">
+      </div>
+      <div class="form-group">
+        <label for="telefone">Telefone</label>
+        <input type="text" id="telefone" name="telefone" class="form-control ml-2" value="{{ request.GET.telefone }}">
+      </div>
+      <div class="form-group">
+        <label for="data">Data</label>
+        <input type="date" id="data" name="data" class="form-control ml-2" value="{{ request.GET.data }}">
+      </div>
+      <div class="form-group">
+        <label for="apartamento">Apartamento</label>
+        <select id="apartamento" name="apartamento" class="form-control ml-2">
+          <option value="">Todos</option>
+          {% for room in rooms %}
+          <option value="{{ room.id }}" {% if room.id|stringformat:"s" == request.GET.apartamento %}selected{% endif %}>{{ room.title }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="btn btn-info ml-3">Buscar</button>
+    </form>
   </div>
 
   <!-- Mobile Accordion -->

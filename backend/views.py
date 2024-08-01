@@ -23,13 +23,13 @@ def index(request):
         form = BookingForm()
     return render(request, "backend/index.html", {'form': form})
 
-def room_view(request):
-    categories = Category.objects.all()
-    return render(request, 'backend/room_view.html', {'categories': categories})
-
 def category_rooms(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     rooms = Room.objects.filter(category=category)
+
+    # Filter rooms by availability for non-admin users
+    if not request.user.is_staff:
+        rooms = rooms.filter(available=True)
     
     check_in = request.GET.get('check_in')
     check_out = request.GET.get('check_out')
@@ -42,6 +42,26 @@ def category_rooms(request, category_id):
         rooms = rooms.filter(
             ~Q(booking__check_in__lte=check_out_date, booking__check_out__gte=check_in_date)
         ).distinct()
+
+    if request.method == 'POST':
+        form = RoomCategoryForm(request.POST)
+        if form.is_valid():
+            room_id = request.POST.get('room_id')
+            room = Room.objects.get(id=room_id)
+            room.category = form.cleaned_data['category']
+            room.available = 'available' in request.POST
+            room.save()
+            return redirect('category_rooms', category_id=category.id)
+    else:
+        form = RoomCategoryForm()
+    
+    return render(request, 'backend/category_rooms.html', {
+        'category': category, 
+        'rooms': rooms, 
+        'form': form, 
+        'check_in': check_in, 
+        'check_out': check_out
+    })
 
     if request.method == 'POST':
         form = RoomCategoryForm(request.POST)
@@ -63,7 +83,7 @@ def add_room_view(request):
         form = RoomForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('room_view')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'rooms/add/'))
     else:
         form = RoomForm()
     return render(request, 'backend/add_room.html', {'form': form})
@@ -83,18 +103,29 @@ def admin_bookings(request):
         booking.room.check_out = None
         booking.save()
 
-    if request.method == 'POST':
-        booking_id = request.POST.get('booking_id')
-        booking = get_object_or_404(Booking, id=booking_id)
-        booking.room.available = False
-        booking.room.save()
-        booking.confirmed = True
-        booking.new_reservation = False
-        booking.save()
-        return redirect('admin_bookings')
-
     bookings = Booking.objects.filter(archived=False)
-    return render(request, 'backend/admin_bookings.html', {'bookings': bookings})
+    
+    # Filtering logic
+    nome = request.GET.get('nome')
+    data = request.GET.get('data')
+    apartamento = request.GET.get('apartamento')
+    telefone = request.GET.get('telefone')
+
+    if nome:
+        bookings = bookings.filter(guest_name__icontains=nome)
+    if data:
+        bookings = bookings.filter(check_in__lte=data, check_out__gte=data)
+    if apartamento:
+        bookings = bookings.filter(room__id=apartamento)
+    if telefone:
+        bookings = bookings.filter(phone_number__icontains=telefone)
+    
+    rooms = Room.objects.all()
+
+    return render(request, 'backend/admin_bookings.html', {
+        'bookings': bookings,
+        'rooms': rooms,
+    })
 
 def check_availability(request, room_id):
     room = get_object_or_404(Room, id=room_id)
@@ -173,7 +204,28 @@ def archived_bookings(request):
         booking.save()
 
     bookings = Booking.objects.filter(archived=True)
-    return render(request, 'backend/archived_bookings.html', {'bookings': bookings})
+    
+    # Filtering logic
+    nome = request.GET.get('nome')
+    data = request.GET.get('data')
+    apartamento = request.GET.get('apartamento')
+    telefone = request.GET.get('telefone')
+
+    if nome:
+        bookings = bookings.filter(guest_name__icontains=nome)
+    if data:
+        bookings = bookings.filter(check_in__lte=data, check_out__gte=data)
+    if apartamento:
+        bookings = bookings.filter(room__id=apartamento)
+    if telefone:
+        bookings = bookings.filter(phone_number__icontains=telefone)
+    
+    rooms = Room.objects.all()
+
+    return render(request, 'backend/archived_bookings.html', {
+        'bookings': bookings,
+        'rooms': rooms,
+    })
 
 def archive_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)

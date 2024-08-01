@@ -111,8 +111,8 @@
     {% block extra_head %}{% endblock %}
   </head>
   <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
+    <!-- Page Preloader -->
+    <div id="preloader">
       <div class="loader"></div>
     </div>
 
@@ -130,21 +130,21 @@
         <div class="header-logo-text">Villa Mia</div>
       </div>
       <div class="header-configure-area">
-        <a href="#rooms" class="bk-btn">Faça sua Reserva</a>
+        <a href="{% url 'index' %}#rooms" class="bk-btn">Faça sua Reserva</a>
       </div>
       <nav class="mainmenu mobile-menu">
         <ul>
-          <li class="active"><a href="#hero" class="plain-link">Home</a></li>
-          <li><a href="#about" class="plain-link">Sobre nós</a></li>
+          <li class="active"><a href="{% url 'index' %}#hero" class="plain-link">Home</a></li>
+          <li><a href="{% url 'index' %}#about" class="plain-link">Sobre nós</a></li>
           <li>
-            <a href="#rooms" class="plain-link">Acomodações</a>
+            <a href="{% url 'index' %}#rooms" class="plain-link">Acomodações</a>
             <ul class="dropdown">
-              <li><a href="#standard" class="plain-link">Standard</a></li>
-              <li><a href="#deluxe" class="plain-link">Deluxe</a></li>
-              <li><a href="#chalet" class="plain-link">Chalet</a></li>
+              <li><a href="{% url 'index' %}#standard" class="plain-link">Standard</a></li>
+              <li><a href="{% url 'index' %}#deluxe" class="plain-link">Deluxe</a></li>
+              <li><a href="{% url 'index' %}#chalet" class="plain-link">Chalet</a></li>
             </ul>
           </li>
-          <li><a href="#contact" class="plain-link">Contato</a></li>
+          <li><a href="{% url 'index' %}#contact" class="plain-link">Contato</a></li>
         </ul>
       </nav>
       <div id="mobile-menu-wrap"></div>
@@ -187,7 +187,7 @@
                             <a href="https://www.airbnb.com.br/rooms/1129104542810955822?source_impression_id=p3_1722376908_P3mqyyBOas58TPSp"><i class="fab fa-airbnb"></i></a>
                             <a href="#"><i class="fab fa-instagram"></i></a>
                         </div>
-                        <a href="#rooms" class="bk-btn">Faça sua Reserva</a>
+                        <a href="{% url 'index' %}#rooms" class="bk-btn">Faça sua Reserva</a>
                         {% if request.user.is_staff %}
                         <a href="{% url 'admin_bookings' %}" class="plain-link ml-3 position-relative">
                             <i class="fas fa-key"></i>
@@ -204,7 +204,7 @@
           <div class="row">
             <div class="col-lg-2">
               <div class="logo">
-                <a href="/" class="header-logo">
+                <a href="{% url 'index' %}" class="header-logo">
                   <img src="{% static 'img/logo.png' %}" alt="" />
                   <span class="header-logo-text">Villa Mia</span>
                 </a>
@@ -215,13 +215,13 @@
                 <nav class="mainmenu">
                   <ul>
                     <li class="active">
-                      <a href="#hero" class="plain-link">Home</a>
+                      <a href="{% url 'index' %}#hero" class="plain-link">Home</a>
                     </li>
-                    <li><a href="#about" class="plain-link">Sobre nós</a></li>
+                    <li><a href="{% url 'index' %}#about" class="plain-link">Sobre nós</a></li>
                     <li>
-                      <a href="#rooms" class="plain-link">Acomodações</a>
+                      <a href="{% url 'index' %}#rooms" class="plain-link">Acomodações</a>
                     </li>
-                    <li><a href="#contact" class="plain-link">Contato</a></li>
+                    <li><a href="{% url 'index' %}#contact" class="plain-link">Contato</a></li>
                   </ul>
                 </nav>
               </div>
@@ -232,7 +232,7 @@
     </header>
     <!-- Header End -->
 
-    {% block body %} {% endblock %}
+    {% block body %}{% endblock %}
 
     <!-- Js Plugins -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -307,7 +307,31 @@
                 .catch(error => console.error('Error updating confirmation status:', error));
             });
         });
-    });    
-      </script>
+
+        // Function to smoothly scroll to a section
+        function scrollToSection(event) {
+          const targetId = event.currentTarget.getAttribute("href").split("#")[1];
+          const targetElement = document.getElementById(targetId);
+          
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop,
+              behavior: "smooth"
+            });
+          }
+        }
+
+        // Attach click event listener to each link with a hash
+        document.querySelectorAll('a[href*="#"]').forEach(anchor => {
+          anchor.addEventListener("click", function(event) {
+            if (window.location.pathname === "{% url 'index' %}") {
+              event.preventDefault();
+              scrollToSection(event);
+            }
+          });
+        });
+
+      });
+    </script>
   </body>
 </html>

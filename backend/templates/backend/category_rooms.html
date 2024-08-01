@@ -150,7 +150,14 @@
                                                 </select>
                                             </div>
                                             <br/>
-                                            <br/>
+                                            <div class="form-group mt-2">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="available" id="available{{ room.id }}" {% if room.available %}checked{% endif %}>
+                                                    <label class="form-check-label" for="available{{ room.id }}">
+                                                        Disponível
+                                                    </label>
+                                                </div>
+                                            </div>
                                             <button type="submit" class="btn btn-success mt-2">Atualizar</button>
                                         </form>
                                     {% endif %}
