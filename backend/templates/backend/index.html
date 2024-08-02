@@ -29,12 +29,12 @@
           </div>
           <div class="image-item card">
             <img
-              src="{% static 'backend/image/interior/pool1.jpeg' %}"
+              src="/media/room_images/verde1.jpeg"
               class="card-img-top"
               alt="Pool 1"
             />
             <img
-              src="{% static 'backend/image/interior/rotate2.jpg' %}"
+              src="{% static 'backend/image/interior/pool2.jpeg' %}"
               class="card-img-top hover-img"
               alt="Rotate 2"
             />
@@ -53,7 +53,7 @@
           </div>
           <div class="image-item card">
             <img
-              src="{% static 'backend/image/interior/pool2.jpeg' %}"
+              src="{% static 'backend/image/interior/pool1.jpeg' %}"
               class="card-img-top"
               alt="Pool 2"
             />
@@ -123,14 +123,14 @@
           <a href="#" class="primary-btn about-btn"></a>
         </div>
       </div>
-      <div class="col-lg-6 mt-5">
+      <div class="col-lg-6 mt-5 about-sec">
         <div class="about-pic">
           <div class="row">
             <div class="col-sm-6">
-              <img src="{% static 'img/about/about-1.jpg' %}" alt="" />
+              <img src="{% static 'backend/image/interior/rotate2.jpg' %}" alt="" class="thumbs" />
             </div>
             <div class="col-sm-6">
-              <img src="{% static 'img/about/about-2.jpg' %}" alt="" />
+              <img src="/media/room_images/verde2.jpeg" alt="" class="thumbs"/>
             </div>
           </div>
         </div>
@@ -193,18 +193,18 @@
   <h2>Acomodações</h2>
 </div>
 <section class="hp-room-section" id="rooms">
-  <div class="container-fluid">
+  <div class="container-fluid container-rooms">
     <div class="hp-room-items">
       <div class="row">
         <div class="col-lg-4 col-md-6">
           <div
-            class="hp-room-item set-bg"
+            class="hp-room-item set-bg thumbs-rooms"
             data-setbg="/media/room_images/Apt9.jpeg"
             id="standard"
           >
-            <div class="hr-text">
+            <div class="hr-text mobile-text">
               <h3>Standard</h3>
-              <h2>R$350<span>/Diária</span></h2>
+              <h2>R$380<span>/Diária</span></h2>
               <table>
                 <tbody>
                   <tr>
@@ -227,13 +227,13 @@
         </div>
         <div class="col-lg-4 col-md-6">
           <div
-            class="hp-room-item set-bg"
-            data-setbg="/media/room_images/Apt5.jpg"
+            class="hp-room-item set-bg thumbs-rooms"
+            data-setbg="/media/room_images/Milano1.jpg"
             id="deluxe"
           >
-            <div class="hr-text">
+            <div class="hr-text mobile-text">
               <h3>Deluxe</h3>
-              <h2>R$420<span>/Diária</span></h2>
+              <h2>R$450<span>/Diária</span></h2>
               <table>
                 <tbody>
                   <tr>
@@ -256,11 +256,11 @@
         </div>
         <div class="col-lg-4 col-md-6">
           <div
-            class="hp-room-item set-bg"
+            class="hp-room-item set-bg thumbs-rooms"
             data-setbg="/media/room_images/VillaMia.png"
             id="chalet"
           >
-            <div class="hr-text">
+            <div class="hr-text mobile-text mobile-text-chalet">
               <h3>Chalet</h3>
               <h2>R$530<span>/Diária</span></h2>
               <table>
@@ -544,6 +544,36 @@
 
   .ti-author .rating {
     margin-bottom: 10px;
+  }
+
+  .thumbs {
+    border: 2px solid black;
+    box-shadow: 2px 3px 3px black;
+  }
+  .thumbs-rooms {
+    border: 2px solid black;
+    box-shadow: 2px 3px 3px black;
+  }
+  @media (max-width: 768px) {
+    .mobile-text-chalet {
+      margin-bottom: -30px;
+    }
+    .thumbs {
+      margin-left: -20px;
+    }
+    .container-rooms {
+      margin-left: -8px;
+    }
+    .about-sec {
+      margin-left: 33px; !important
+    }
+    .hp-room-items .hp-room-item {
+      height: 600px;
+      width: 400px;
+      margin-right: -15px;
+      position: relative;
+      overflow: hidden;
+    }
   }
 </style>
 

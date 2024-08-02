@@ -111,7 +111,7 @@ ol {
 .set-bg {
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: bottom center;
+  background-position: bottom right;
 }
 .spad {
   padding-top: 100px;
@@ -765,16 +765,19 @@ ol {
 .hp-room-items {
   margin-left: -15px;
   margin-right: -15px;
+  padding-right: 30px;
+  padding-left: 10px;
   overflow: hidden;
 }
 .hp-room-items .hp-room-item {
   height: 600px;
+  width: 620px;
   margin-right: -15px;
   position: relative;
   overflow: hidden;
 }
 .hp-room-items .hp-room-item:hover .hr-text {
-  bottom: 135px;
+  bottom: 45px;
 }
 .hp-room-items .hp-room-item:hover .hr-text h2 {
   margin-bottom: 30px;
