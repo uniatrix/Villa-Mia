@@ -78,11 +78,14 @@ WSGI_APPLICATION = 'villamia.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'djangovillamia',
+        'USER': 'admin',
+        'PASSWORD': 'ioed5wzz',
+        'HOST': 'your-aws-rds-endpoint',  # Replace with your AWS RDS endpoint
+        'PORT': '5432',  # Default port for PostgreSQL
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
