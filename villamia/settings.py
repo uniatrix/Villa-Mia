@@ -82,8 +82,8 @@ DATABASES = {
         'NAME': 'djangovillamia',
         'USER': 'admin',
         'PASSWORD': 'ioed5wzz',
-        'HOST': 'your-aws-rds-endpoint',  # Replace with your AWS RDS endpoint
-        'PORT': '5432',  # Default port for PostgreSQL
+        'HOST': '',
+        'PORT': '',
     }
 }
 
