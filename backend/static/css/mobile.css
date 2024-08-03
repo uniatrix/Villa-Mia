@@ -21,7 +21,7 @@ body {
   }
   
   /* Apply mobile-specific styles */
-  @media (max-width: 768px) {
+  @media (max-width: 913px) {
     /* Center hero section text and button */
     .hero-section .hero-text {
       text-align: center;
