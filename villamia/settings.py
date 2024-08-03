@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-_+$ug3i&3okbh6z#fyfr_i04mj6lw%o8%xxx!1#-&&4rfyfe9p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['18.231.207.118', 'localhost']
 
 
 # Application definition
@@ -78,11 +78,14 @@ WSGI_APPLICATION = 'villamia.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'djangovillamia',
+        'USER': 'admin',
+        'PASSWORD': 'ioed5wzz',
+        'HOST': '',
+        'PORT': '',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
