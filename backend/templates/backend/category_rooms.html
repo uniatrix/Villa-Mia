@@ -99,6 +99,33 @@
             margin-bottom: 18px;
         } 
     }
+
+    /* Additional styles to align card content */
+    .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card-body .content {
+        flex: 1;
+    }
+
+    .card-footer {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .list-group {
+        flex: 1;
+    }
 </style>
 {% endblock %}
 {% block body %}
@@ -128,9 +155,9 @@
                             <div class="card h-100 shadow-sm">
                                 <img src="{{ room.image.url }}" class="card-img-top" alt="{{ room.title }}">
                                 <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title card-title">{{ room.title }}</h5>
-                                    <p class="card-text">{{ room.description }}</p>
-                                    <div class="d-flex justify-content-right">
+                                    <div class="content">
+                                        <h5 class="card-title">{{ room.title }}</h5>
+                                        <p class="card-text">{{ room.description }}</p>
                                         <ul class="list-group list-group-flush mb-3">
                                             <li class="list-group-item"><i class="fas fa-users"></i>Capacidade: {{ room.capacity }}</li>
                                             <li class="list-group-item"><i class="fas fa-tv"></i>TV: {{ room.tv|yesno:"Sim,Não" }}</li>
@@ -140,36 +167,36 @@
                                             <li class="list-group-item"><i class="fas fa-dollar-sign"></i>Diária: R$ {{ room.price }}</li>
                                         </ul>
                                     </div>
-                                    <div class="d-flex justify-content-right">
+                                    <div class="card-footer">
                                         <a href="{% url 'check_availability' room.id %}" class="btn btn-info mt-auto">Verificar Disponibilidade</a>
-                                    </div>
-                                    {% if request.user.is_staff %}
-                                        <form method="post" action="{% url 'category_rooms' category.id %}" class="mt-3">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="room_id" value="{{ room.id }}">
-                                            <div class="form-group">
-                                                <label for="category">Mudar Categoria:</label>
-                                                <br/>
-                                                <select name="category" class="form-control">
-                                                    {% for category in form.fields.category.queryset %}
-                                                        <option value="{{ category.id }}" {% if room.category == category %}selected{% endif %}>
-                                                            {{ category.name }}
-                                                        </option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                            <br/>
-                                            <div class="form-group mt-2">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="available" id="available{{ room.id }}" {% if room.available %}checked{% endif %}>
-                                                    <label class="form-check-label" for="available{{ room.id }}">
-                                                        Disponível
-                                                    </label>
+                                        {% if request.user.is_staff %}
+                                            <form method="post" action="{% url 'category_rooms' category.id %}" class="mt-3">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="room_id" value="{{ room.id }}">
+                                                <div class="form-group">
+                                                    <label for="category">Mudar Categoria:</label>
+                                                    <br/>
+                                                    <select name="category" class="form-control">
+                                                        {% for category in form.fields.category.queryset %}
+                                                            <option value="{{ category.id }}" {% if room.category == category %}selected{% endif %}>
+                                                                {{ category.name }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
                                                 </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-success mt-2">Atualizar</button>
-                                        </form>
-                                    {% endif %}
+                                                <br/>
+                                                <div class="form-group mt-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="available" id="available{{ room.id }}" {% if room.available %}checked{% endif %}>
+                                                        <label class="form-check-label" for="available{{ room.id }}">
+                                                            Disponível
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-success mt-2">Atualizar</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
