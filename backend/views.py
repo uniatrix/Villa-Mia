@@ -44,6 +44,20 @@ def category_rooms(request, category_id):
         ).distinct()
 
     if request.method == 'POST':
+        room_id = request.POST.get('room_id')
+        room = get_object_or_404(Room, id=room_id)
+        room.available = 'available' in request.POST
+        room.save()
+        return redirect('category_rooms', category_id=category.id)
+    
+    return render(request, 'backend/category_rooms.html', {
+        'category': category, 
+        'rooms': rooms, 
+        'check_in': check_in, 
+        'check_out': check_out
+    })
+
+    if request.method == 'POST':
         form = RoomCategoryForm(request.POST)
         if form.is_valid():
             room_id = request.POST.get('room_id')
