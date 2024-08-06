@@ -148,6 +148,9 @@
         <a href="#"><i class="fab fa-instagram"></i></a>
         {% if request.user.is_staff %}
         <a href="{% url 'admin_bookings' %}" class="plain-link" style="position: relative;">
+          <i class="fas fa-list"></i>
+        </a>
+        <a href="{% url 'admin:index' %}" class="plain-link" style="position: relative;">
           <i class="fas fa-key"></i>
         </a>
         {% endif %}
@@ -185,8 +188,11 @@
                         <a href="{% url 'index' %}#rooms" class="bk-btn">Faça sua Reserva</a>
                         {% if request.user.is_staff %}
                         <a href="{% url 'admin_bookings' %}" class="plain-link ml-3 position-relative">
-                            <i class="fas fa-key"></i>
+                            <i class="fas fa-list"></i>
                             <span id="notification-badge" class="badge badge-danger" style="display: none; position: absolute; top: -10px; right: -10px;">0</span>
+                        </a>
+                        <a href="{% url 'admin:index' %}" class="plain-link ml-3 position-relative">
+                            <i class="fas fa-key"></i>
                         </a>
                         {% endif %}
                     </div>
