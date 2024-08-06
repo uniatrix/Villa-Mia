@@ -225,27 +225,47 @@
 <script>
     $(document).ready(function() {
         var bookedDates = {{ booked_dates|safe }};
-        
+
+        // Function to create date ranges from booked dates
+        function createDateRanges(dates) {
+            dates.sort((a, b) => new Date(a) - new Date(b));
+            let ranges = [];
+            let start = null;
+            let end = null;
+
+            for (let i = 0; i < dates.length; i++) {
+                let current = new Date(dates[i]);
+                if (!start) {
+                    start = current;
+                    end = current;
+                } else if (current - end === 86400000) { // 24 hours in milliseconds
+                    end = current;
+                } else {
+                    ranges.push([start, end]);
+                    start = current;
+                    end = current;
+                }
+            }
+            if (start) ranges.push([start, end]);
+            return ranges;
+        }
+
+        let dateRanges = createDateRanges(bookedDates);
+
         flatpickr("#date_range", {
             mode: "range",
             dateFormat: "Y-m-d",
             minDate: "today",
-            disable: [
-                function(date) {
-                    // Disable date if it's booked and not the second selected date in range
-                    if (flatpickrInstance.selectedDates.length === 1) {
-                        return !bookedDates.includes(date.toISOString().split('T')[0]);
-                    }
-                    return false;
-                }
-            ],
+            disable: dateRanges.map(range => ({
+                from: range[0],
+                to: new Date(range[1].getTime() - 86400000) // Exclude the last day (check-out date)
+            })),
             onDayCreate: function(dObj, dStr, fp, dayElem) {
-                if (bookedDates.includes(dayElem.dateObj.toISOString().split('T')[0])) {
-                    if (fp.selectedDates.length === 1) {
-                        // Allow only second date to be booked date
-                        dayElem.classList.add('checkout-allowed');
-                    } else {
+                let currentDate = dayElem.dateObj;
+                for (let range of dateRanges) {
+                    if (currentDate >= range[0] && currentDate < range[1]) {
                         dayElem.classList.add('booked');
+                        break;
                     }
                 }
             },
@@ -256,13 +276,8 @@
                     document.getElementById("id_check_in").value = checkInDate.toISOString().split('T')[0];
                     document.getElementById("id_check_out").value = checkOutDate.toISOString().split('T')[0];
                 }
-            },
-            onReady: function(selectedDates, dateStr, instance) {
-                flatpickrInstance = instance;
             }
         });
-
-        var flatpickrInstance;
     });
 
     function changeMainImage(url) {

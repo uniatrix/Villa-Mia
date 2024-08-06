@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-_+$ug3i&3okbh6z#fyfr_i04mj6lw%o8%xxx!1#-&&4rfyfe9p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['18.231.207.118', 'localhost', 'villamia.app.br', 'www.villamia.app.br']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -78,14 +78,11 @@ WSGI_APPLICATION = 'villamia.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'djangovillamia',
-        'USER': 'admin',
-        'PASSWORD': 'ioed5wzz',
-        'HOST': '',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -122,9 +119,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # Add this line
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'backend/static'),
+    os.path.join(BASE_DIR, 'backend/static'),  # Correct path to static files
 ]
 
 # Default primary key field type
