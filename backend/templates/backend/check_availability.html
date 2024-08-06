@@ -230,10 +230,23 @@
             mode: "range",
             dateFormat: "Y-m-d",
             minDate: "today",
-            disable: bookedDates,
+            disable: [
+                function(date) {
+                    // Disable date if it's booked and not the second selected date in range
+                    if (flatpickrInstance.selectedDates.length === 1) {
+                        return !bookedDates.includes(date.toISOString().split('T')[0]);
+                    }
+                    return false;
+                }
+            ],
             onDayCreate: function(dObj, dStr, fp, dayElem) {
                 if (bookedDates.includes(dayElem.dateObj.toISOString().split('T')[0])) {
-                    dayElem.classList.add('booked');
+                    if (fp.selectedDates.length === 1) {
+                        // Allow only second date to be booked date
+                        dayElem.classList.add('checkout-allowed');
+                    } else {
+                        dayElem.classList.add('booked');
+                    }
                 }
             },
             onChange: function(selectedDates, dateStr, instance) {
@@ -243,8 +256,13 @@
                     document.getElementById("id_check_in").value = checkInDate.toISOString().split('T')[0];
                     document.getElementById("id_check_out").value = checkOutDate.toISOString().split('T')[0];
                 }
+            },
+            onReady: function(selectedDates, dateStr, instance) {
+                flatpickrInstance = instance;
             }
         });
+
+        var flatpickrInstance;
     });
 
     function changeMainImage(url) {

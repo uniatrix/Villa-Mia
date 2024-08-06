@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-_+$ug3i&3okbh6z#fyfr_i04mj6lw%o8%xxx!1#-&&4rfyfe9p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['18.231.207.118', 'localhost']
+ALLOWED_HOSTS = ['18.231.207.118', 'localhost', 'villamia.app.br', 'www.villamia.app.br']
 
 
 # Application definition
@@ -122,8 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # Add this line
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'backend/static'),  # Correct path to static files
+    os.path.join(BASE_DIR, 'backend/static'),
 ]
 
 # Default primary key field type
