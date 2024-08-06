@@ -9,7 +9,10 @@ class RoomForm(forms.ModelForm):
 
     class Meta:
         model = Room
-        fields = ['title', 'description', 'image', 'capacity', 'tv', 'wifi', 'ac', 'bathtub', 'price', 'category']
+        fields = [
+            'title', 'description', 'image', 'capacity', 
+            'tv', 'wifi', 'ac', 'bathtub', 'price', 'category'
+        ]
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
@@ -28,8 +31,6 @@ class RoomForm(forms.ModelForm):
         if commit:
             room.save()
         return room
-
-
 
 class RoomCategoryForm(forms.ModelForm):
     class Meta:

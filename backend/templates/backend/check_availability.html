@@ -217,6 +217,11 @@
             </form>
         </div>
     </div>
+    {% if request.user.is_staff %}
+        <div class="text-center mt-4">
+            <a href="{% url 'edit_room_details' room.id %}" class="btn btn-dark">Editar Acomodação</a>
+        </div><br/>
+    {% endif %}
 </div>
 
 {% block extra_js %}

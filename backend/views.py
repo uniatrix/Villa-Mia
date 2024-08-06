@@ -63,20 +63,6 @@ def category_rooms(request, category_id):
         'check_out': check_out
     })
 
-    if request.method == 'POST':
-        form = RoomCategoryForm(request.POST)
-        if form.is_valid():
-            room_id = request.POST.get('room_id')
-            room = Room.objects.get(id=room_id)
-            room.category = form.cleaned_data['category']
-            room.available = form.cleaned_data['available']
-            room.save()
-            return redirect('category_rooms', category_id=category.id)
-    else:
-        form = RoomCategoryForm()
-    
-    return render(request, 'backend/category_rooms.html', {'category': category, 'rooms': rooms, 'form': form, 'check_in': check_in, 'check_out': check_out})
-
 @user_passes_test(lambda u: u.is_staff)
 def add_room_view(request):
     if request.method == 'POST':
@@ -160,7 +146,6 @@ def check_availability(request, room_id):
         'images': images
     })
 
-
 @user_passes_test(lambda u: u.is_staff)
 def delete_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
@@ -243,3 +228,51 @@ def archive_booking(request, booking_id):
             booking.room.check_out = None
         booking.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'admin_bookings'))
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, user_passes_test
+from .forms import RoomForm
+from .models import Room, RoomImage
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, user_passes_test
+from .forms import RoomForm
+from .models import Room, RoomImage
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def edit_room_details(request, room_id):
+    room = get_object_or_404(Room, id=room_id)
+    if request.method == 'POST':
+        form = RoomForm(request.POST, request.FILES, instance=room)
+        if form.is_valid():
+            room = form.save(commit=False)
+            room.save()
+
+            # Handle additional images
+            images = [
+                request.FILES.get('image_1'),
+                request.FILES.get('image_2'),
+                request.FILES.get('image_3'),
+                request.FILES.get('image_4')
+            ]
+            existing_images = RoomImage.objects.filter(room=room).order_by('id')
+
+            for idx, new_image in enumerate(images, start=1):
+                if new_image:
+                    # Replace the existing image if it exists, otherwise create a new one
+                    if len(existing_images) >= idx:
+                        existing_image = existing_images[idx - 1]
+                        existing_image.image = new_image
+                        existing_image.save()
+                    else:
+                        RoomImage.objects.create(room=room, image=new_image)
+
+            return redirect('check_availability', room_id=room.id)
+        else:
+            print("Form is not valid")
+            print(form.errors)
+    else:
+        form = RoomForm(instance=room)
+    
+    return render(request, 'backend/edit_room.html', {'form': form, 'room': room})

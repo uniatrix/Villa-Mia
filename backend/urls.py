@@ -19,4 +19,5 @@ urlpatterns = [
     path('toggle-confirm-status/<int:booking_id>/', views.toggle_confirm_status, name='toggle_confirm_status'),
     path('new_reservations_count/', views.new_reservations_count, name='new_reservations_count'),
     path('archive-booking/<int:booking_id>/', views.archive_booking, name='archive_booking'),
+    path('edit-room/<int:room_id>/', views.edit_room_details, name='edit_room_details'),  # New URL pattern
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
